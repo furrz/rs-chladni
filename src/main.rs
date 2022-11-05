@@ -18,7 +18,7 @@ fn main() {
     let event_loop = glutin::event_loop::EventLoop::new();
     let wb = glutin::window::WindowBuilder::new()
         .with_title("Chladni Plate Simulator")
-        .with_inner_size(glutin::dpi::LogicalSize::new(1024, 1024));
+        .with_inner_size(glutin::dpi::PhysicalSize::new(1500, 1500));
     let cb = glutin::ContextBuilder::new();
     let display = glium::Display::new(wb, cb, &event_loop).unwrap();
 

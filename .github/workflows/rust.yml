@@ -12,7 +12,11 @@ env:
 jobs:
   build:
 
-    runs-on: windows-latest
+    runs-on: ${matrix.os}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - name: Set up cargo cache
@@ -34,5 +38,7 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: distributables
-          path: target/release/*.exe
+          name: distributables-${{ runner.os }}
+          path: |
+            target/release/rsfigures.exe
+            target/release/rsfigures
