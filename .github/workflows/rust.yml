@@ -15,11 +15,24 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build
-      run: cargo build --release
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: distributables
-        path: target/release/*.exe
+      - name: Set up cargo cache
+        uses: actions/cache@v3
+        continue-on-error: false
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+
+      - uses: actions/checkout@v3
+      - name: Build
+        run: cargo build --release
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: distributables
+          path: target/release/*.exe
